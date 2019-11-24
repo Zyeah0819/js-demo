@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HelloVue</title>
+</head>
+<body>
+<div id = "vueTest">
+    <!--vue的基本使用-->
+    <input type="text" v-model="num"><button @click="add">+</button><!--v-model是双向绑定-->
+    <h1>HelloWorld! DisPlay by{{name}}</h1>
+    <h2>每月月薪{{num}}</h2>
+    <span v-text="name"></span><br><!--v-text：将数据输出到元素内部，如果输出的数据有HTML代码，会作为普通文本输出-->
+    <span v-html="name"></span><br><!--v-html：将数据输出到元素内部，如果输出的数据有HTML代码，会被渲染-->
+    <!--v-model-->
+    <h1>课程：</h1>
+    <input type="checkbox" v-model="lessons" value="Java" />Java<br>
+    <input type="checkbox" v-model="lessons" value="Python" />Python<br>
+    <input type="checkbox" v-model="lessons" value="IOS" />IOS<br>
+    <h2>您选的课程有：{{lessons.join(",")}}</h2>
+
+    <!--v-on:v-on可以简化为@-->
+    <div style="height: 150px;width: 150px;background-color: aqua;" @click="handleClick('div')">
+        div<br>
+        <!--`v-on:click='add'`可以简写为`@click='add'`-->
+        <button v-on:click.stop="handleClick('button')">点我试试</button><!--`.stop` ：阻止事件冒泡到父元素-->
+        <a href="http://baidu.com" @click.prevent="hangdleClick('百度')">百度</a><!--`.prevent`：阻止默认事件发生-->
+    </div>
+
+    <!--v-for-->
+    <ul>
+        <!--<li v-for="u in users">-->
+            <!--{{u.name+","+u.gender+","+u.age}}-->
+        <!--</li>-->
+        <li v-for="(u,index) in users" :key="index"><!--//遍历数组,价格：key会提高修改时的渲染速度-->
+           {{index}} :  {{u.name+","+u.gender+","+u.age}}
+        </li>
+        <br>
+        <li v-for="(v,k) in users[0]"><!--//遍历对象-->
+            {{k}} : {{v}}
+        </li>
+        <br>
+        <li v-for="i in 5"><!--//遍历数字-->
+            {{i}}
+        </li>
+    </ul>
+    <!--v-if-->
+    <!--事件中直接写js片段-->
+    <button @click="show = !show">点击切换</button>
+    <h1 v-if="show"><!--直接注释掉-->
+        您好！
+    </h1>
+    <h1 v-show="show"><!--代码控制不展示-->
+        您好！show
+    </h1>
+    <ul>
+        <li v-for="i in 5" ><!--三个等号，两边类型一定要一直才返回真-->
+            <span v-if="i%2===0">偶数：{{i}}</span>
+            <span v-else style="background-color: aqua">奇数：{{i}}</span>
+        </li>
+    </ul>
+</div>
+</body>
+<script src="node_modules/vue/dist/vue.js" ></script>
+<script>
+    var vueTest =  new Vue({
+        el:"#vueTest",  //el即element，该Vue实例要渲染的页面元素
+        data: {     //渲染页面需要的数据
+            name: "Vue",
+            num: "2500",
+            lessons:[], //数组形式
+            users:[
+                {name:'柳岩', gender:'女', age: 21},
+                {name:'峰哥', gender:'男', age: 18},
+                {name:'范冰冰', gender:'女', age: 24},
+                {name:'刘亦菲', gender:'女', age: 18},
+                {name:'古力娜扎', gender:'女', age: 25}
+            ],
+            show: true,
+        },
+        methods:{   //定义的方法
+            add(){
+                this.num++,
+                console.log(this)
+            },
+            handleClick(msg){
+                console.log(msg)
+            },
+        },
+        created(){
+            setTimeout( () =>this.num = "8100",1000)//延时触发，（）为空方法
+            setTimeout(this.name="<font color='blue'>两者之间的区别</font>")
+        }
+    });
+</script>
+</html>
