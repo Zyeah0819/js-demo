@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>helloVue4</title>
+</head>
+<body>
+    <div id="vueTest">
+        <introduce :title="msg"></introduce>
+        <hr>
+        <for-component :items="lessons"></for-component>
+<!--        <for-component ></for-component>    /复杂写法调用-->
+    </div>
+    <script src="node_modules/vue/dist/vue.js" ></script>
+    <script>
+        //局部组件：
+        const introduce = {
+            template:"<h1>{{title}}</h1>",
+            props:['title']     //接收属性
+        };
+
+        const forComponent = {
+            template: "<ul><li v-for='item in items'>{{item}}</li></ul>",
+            props:['items']
+            //复杂写法
+            // props:{
+            //     items:{
+            //         type:Array,
+            //     default:["Java","Python"]
+            // }
+        // }
+        };
+
+        const vueTest = new Vue({
+           el:"#vueTest",
+           data:{
+              msg:"动感光波！",
+              lessons:["Java","Python","PHP"]
+           } ,
+            components:{
+               introduce,forComponent
+            }
+        });
+    </script>
+</body>
+</html>
